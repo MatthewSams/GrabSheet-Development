@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"/>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+
+        <title>TestApp</title>
+        <style>
+            .box {
+                padding: 0.5em;
+                width: 100%;
+                margin:0.5em;
+            }
+
+            .box-2 {
+                padding: 0.5em;
+                width: calc(100%/2 - 1em);
+            }
+
+            .btn{
+                background:white;
+                color:black;
+                border:1px solid black;
+                padding: 0.5em 1em;
+                text-decoration:none;
+                margin:0.8em 0.3em;
+                display:inline-block;
+                cursor:pointer;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            img {
+                display: block;
+
+                /* This rule is very important, please don't ignore this */
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>Crop Image</h1>
+        </div>
+        
+        <!-- <button id="image-editor-btn">Open Image Editor</button>
+        <script src="https://cdn.scaleflex.it/plugins/filerobot-image-editor/3.7.0/filerobot-image-editor.min.js"></script>
+        -->
+        
+        <!--
+        <script>
+            const config = {
+                tools: ['crop','rotate']
+            };
+            const onComplete = function(newUrl, file) {
+                console.log('your url for the edited image: ', newUrl);
+            };
+
+            const ImageEditor = new FilerobotImageEditor(config);
+
+            
+ 
+            ImageEditor.open('https://www.dailydot.com/wp-content/uploads/0ff/73/c52a1a0a019c43de-454x512.png');
+        </script>
+    -->
+        
+
+        <div style = "max-width: 600px; max-height: 600px">
+            <img id = 'img' src = "<%= file %>" class="img-responsive" 
+                style="width:600px;height:600px;object-fit:contain"/>
+
+            <form action="/cropped" method="post" enctype="multipart/form-data">
+                <button type="submit" class= "btn save">Read Section</button>
+                <div class="img-result hide">
+                    <!-- result of crop -->
+                    <img class="cropped" src="" alt="" name = "selection">
+                </div>
+            </form>
+        </div>
+        <script>
+            let save = document.querySelector('.save'),
+            img_result = document.querySelector('.img-result'),
+            cropped = document.querySelector('.cropped'),
+            // import 'cropperjs/dist/cropper.css';
+            image = document.getElementById('img');
+            const cropper = new Cropper(image, {
+            viewMode: 2,    
+            rotatable: true,
+            crop(event) {
+                console.log(event.detail.x);
+                console.log(event.detail.y);
+                console.log(event.detail.width);
+                console.log(event.detail.height);
+                console.log(event.detail.rotate);
+                console.log(event.detail.scaleX);
+                console.log(event.detail.scaleY);
+            },
+            });
+
+            save.addEventListener('click',(e)=>{
+                e.preventDefault();
+                // get result to data uri
+                let imgSrc = cropper.getCroppedCanvas({
+                    }).toDataURL();
+                
+                cropped.classList.remove('hide');
+                img_result.classList.remove('hide');
+                // show image cropped
+                cropped.src = imgSrc;
+
+            });
+        </script>
+
+
+
+
+        
+
+    </body>
+</html>
