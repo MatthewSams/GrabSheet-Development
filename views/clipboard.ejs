@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>TestApp</title>
+        <style>
+
+            .btn{
+                background:white;
+                color:black;
+                border:1px solid black;
+                padding: 0.5em 1em;
+                text-decoration:none;
+                margin:0.8em 0.3em;
+                display:inline-block;
+                cursor:pointer;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            img {
+                display: block;
+
+                /* This rule is very important, please don't ignore this */
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>Text Detection Result</h1>
+        </div>
+        <div>
+            <!-- display ocr text result. span represents what will be copied to clipboard-->
+            <p　action = "/crop">Data: <span id="copyText"><%= data %></span></p>
+        </div>
+
+        <button type="submit"  class="btn" onclick="CopyToClipboard()">Copy to Clipboard</button>
+       
+        <script>
+            //copy
+            function CopyToClipboard() {
+                let copyText = document.getElementById("copyText") 
+
+                //selection selects text. initialized with nothing selected
+                var selection = window.getSelection();
+
+                //ranged sets range in document for selection. initially none
+                var range = document.createRange();
+
+                //sets range as the ocr text
+                range.selectNodeContents(copyText);
+
+                //removes any preexisting selections
+                selection.removeAllRanges();
+
+                //selects ocr text
+                selection.addRange(range);
+
+                //copy text to clipboard
+                document.execCommand('copy');
+
+                //removing highlight (for visual purposes)
+                selection.removeAllRanges();
+            }
+            
+        </script>
+
+        
+
+    </body>
+</html>
