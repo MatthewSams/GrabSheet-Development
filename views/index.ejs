@@ -54,21 +54,17 @@
             <!-- submits /upload POST request-->
             <button type="submit">Convert</button>
         </form>
-        <!-- <script>
-            function crop_img() {
-              window.location.href = '/crop'
-            }
-        </script> -->
 
          
 
         <div style = "max-width: 600px; max-height: 600px">
             <!-- Takes the filepath stored in variable:file uploaded from upload.js-->
             <img id = 'input' src = "<%= file %>" class="img-responsive" 
-                    style="width:600px;height:600px;object-fit:contain"/> 
+                    style="object-fit:contain"/> 
 
             <form action="/cropped" method="POST">
                 <input type="text" class = "send hide" value = "" name = "cropped_img">
+                <input type="text" class = "send_2 hide" value = "" name = "cropped_img_filename">
                 <input type="submit" class= "btn save" value = "Analyze Region">
                 
                 <div class="img-result hide">
@@ -87,6 +83,7 @@
             cropped = document.querySelector('.cropped'),
             cropping = document.querySelector('.cropping')
             send = document.querySelector('.send')
+            send_2 = document.querySelector('.send_2')
             // import 'cropperjs/dist/cropper.css';
             image = document.getElementById('input');
             
@@ -104,52 +101,30 @@
             },
             });
 
+            //when user clicks the analyze crop button
             save.addEventListener('click',(e)=>{
-                // get result to data uri
+                // get crop result to dataURL base64 format
                 let imgSrc = cropper.getCroppedCanvas({
                     maxWidth: 1000,
                     maxHeight: 1000,
                     fillColor: '#fff'
-                    }).toDataURL('image/jpeg', 0.5);
+                }).toDataURL();
                 
+                //hide html elements
                 cropped.classList.remove('hide');
                 img_result.classList.remove('hide');
+
                 // show image cropped
                 cropped.src = imgSrc;
 
-                
-
                 //var src = imgSrc;
+
+                //debugging purposes
                 document.getElementById("myText").innerHTML = imgSrc;
 
-                //$data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', imgSrc));
-                //var loc = '/tmp/image.png'
-                //file_put_contents(loc, $data);
-                //var src = imgSrc.replace('data:image/jpeg;base64,','')
+                //send dataURL to post method so it can be sent to crop.js
                 send.value = imgSrc;
-
-                //saveURI(imgSrc);
-
-
             });
-
-            /*function saveURI(cropped_img) {
-                //we have native fetch in newer browsers, so
-                return fetch("/cropped", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json; charset=utf-8", //if this doesn't work use the below one
-                        // "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: JSON.stringify({cropped_img}), // body data type must match "Content-Type" header
-                })
-                .then(response => response.json());
-            }*/
-
-
-
-
-            
         </script>
 
         
