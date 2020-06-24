@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.set("view engine","ejs");
 app.use(require("./routes/router"));
 app.use(require("./routes/upload"));
+app.use(require("./routes/crop"));
 
 // Public Folder
 app.use(express.static('./public'));
